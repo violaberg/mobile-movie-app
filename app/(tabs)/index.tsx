@@ -10,7 +10,13 @@ import MovieCard from "../components/MovieCard";
 export default function Index() {
   const router = useRouter();
 
-  const { data: movies, loading: moviesLoading, error: moviesError } = useFetch(() => fetchMovies({ query: '' }))
+  const {
+    data: movies,
+    loading,
+    error,
+  } = useFetch(() => fetchMovies({
+    query: ''
+  }))
 
   return (
     <View className="flex-1 bg-primary">
@@ -23,13 +29,13 @@ export default function Index() {
           source={icons.logo}
           className="w-12 h-10 mt-20 mb-5 mx-auto" />
 
-        {moviesLoading ? (
+        {loading ? (
           <ActivityIndicator
             size='large'
             color='#0000ff'
             className="mt-10 self-center" />
-        ) : moviesError ? (
-          <Text>Error: {moviesError?.message}</Text>
+        ) : error ? (
+          <Text>Error: {error?.message}</Text>
         ) : (
           <View className="flex-1 mt-5">
             <SearchBar
@@ -43,7 +49,7 @@ export default function Index() {
                 data={movies}
                 renderItem={({ item }) => (
                   <MovieCard
-                  {... item}
+                    {...item}
                   />
                 )}
                 keyExtractor={(item) => item.id.toString()}
