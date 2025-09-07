@@ -7,17 +7,17 @@ export const TMDB_CONFIG = {
     }
 }
 
-export const fetchMovies = async({query}: { query: string }) => {
+export const fetchMovies = async ({ query }: { query: string }) => {
     const endpoint = query
-    ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-    : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
+        ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+        : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
     const response = await fetch(endpoint, {
         method: 'GET',
         headers: TMDB_CONFIG.headers,
     });
-    
-    if(!response.ok) {
+
+    if (!response.ok) {
         // @ts-ignore
         throw new Error('Failed to fetch movies', response.statusText);
     }
@@ -27,16 +27,26 @@ export const fetchMovies = async({query}: { query: string }) => {
     return data.results;
 }
 
-//const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
-//const options = {
-//  method: 'GET',
-//  headers: {
-//    accept: 'application/json',
-//    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MmNkMmUzMTY4Mjg4ZGNiYmI1YjI0Mzg2ZmMyYjU5MiIsIm5iZiI6MTc1Njk4MTQ5Ni4zMjksInN1YiI6IjY4Yjk2OGY4ZmM1M2M4MzNhZThjZGMwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fH99eyWSk1mM3RCIogoGMhWS98scBOcYdUeYW25c7qs'
-//  }
-//};
+export const fetchMovieDetails = async (
+    movieId: string
+): Promise<MovieDetails> => {
+    try {
+        const response = await fetch(
+            `${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`,
+            {
+                method: "GET",
+                headers: TMDB_CONFIG.headers,
+            }
+        );
 
-//fetch(url, options)
-//  .then(res => res.json())
-//  .then(json => console.log(json))
-//  .catch(err => console.error(err));
+        if (!response.ok) {
+            throw new Error(`Failed to fetch movie details: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching movie details:", error);
+        throw error;
+    }
+};
