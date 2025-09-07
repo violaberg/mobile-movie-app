@@ -1,11 +1,11 @@
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { View, Text, Image, ScrollView, ActivityIndicator, FlatList } from "react-native";
-import SearchBar from "../components/SearchBar";
 import { useRouter } from "expo-router";
-import { fetchMovies } from "../services/api";
-import useFetch from "../services/useFetch";
-import MovieCard from "../components/MovieCard";
+import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
+import MovieCard from "@/components/MovieCard";
+import { fetchMovies } from "@/services/api";
+import useFetch from "@/services/useFetch";
+import SearchBar from "@/components/SearchBar";
 
 export default function Index() {
   const router = useRouter();

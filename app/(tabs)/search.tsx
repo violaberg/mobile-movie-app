@@ -1,12 +1,12 @@
-import { View, Text, Image, FlatList, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { images } from '@/constants/images';
-import MovieCard from '../components/MovieCard';
-import { fetchMovies } from '../services/api';
-import useFetch from '../services/useFetch';
 import { icons } from '@/constants/icons';
-import SearchBar from '../components/SearchBar';
-import { updateSearchCount } from '../services/appwrite';
+import { images } from '@/constants/images';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
+import MovieCard from '@/components/MovieCard';
+import SearchBar from '@/components/SearchBar';
+import { fetchMovies } from '../../services/api';
+import { updateSearchCount } from '@/services/appwrite';
+import useFetch from '@/services/useFetch';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,7 +22,7 @@ const Search = () => {
   }), false)
 
   useEffect(() => {
-    updateSearchCount(searchQuery, movies[0]);
+    //updateSearchCount(searchQuery, movies[0]);
 
     const timeoutId = setTimeout(async () => {
       if (searchQuery.trim()) {
